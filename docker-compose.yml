@@ -46,12 +46,10 @@ services:
     hostname: tailnord-nordvpn
     healthcheck:
       test:
-        [
-          "CMD",
-          "sh",
-          "-c",
-          "nordvpn status | grep -q '^Status: Connected\\$'"
-        ]
+        - CMD
+        - sh
+        - -c
+        - "nordvpn status | grep -q '^Status: Connected$'"
       interval: 1m
       timeout: 10s
       retries: 3
