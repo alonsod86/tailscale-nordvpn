@@ -28,6 +28,10 @@ services:
       - TAILSCALE_UP_LOGIN_SERVER=${TAILSCALE_UP_LOGIN_SERVER}
       - IP_NORDVPN=${IP_NORDVPN}
       - INSTANCE_NAME=${INSTANCE_NAME}
+      - MQTT_BROKER=${MQTT_BROKER}
+      - MQTT_USER=${MQTT_USER}
+      - MQTT_PASS=${MQTT_PASS}
+      - MQTT_TOPIC_PREFIX=${MQTT_TOPIC_PREFIX}
     cap_add:
       - net_admin
       - sys_module
@@ -68,6 +72,10 @@ services:
       - NORDVPN_TECHNOLOGY=${NORDVPN_TECHNOLOGY}
       - NORDVPN_OPENVPN_PROTOCOL=${NORDVPN_OPENVPN_PROTOCOL}
       - IP_SUBNET=${IP_SUBNET}
+      - MQTT_BROKER=${MQTT_BROKER}
+      - MQTT_USER=${MQTT_USER}
+      - MQTT_PASS=${MQTT_PASS}
+      - MQTT_TOPIC_PREFIX=${MQTT_TOPIC_PREFIX}
     volumes:
       - "/dev/net/tun:/dev/net/tun"
       - "./nordvpn/scripts:/scripts"
