@@ -9,6 +9,12 @@ services:
     ]
     user: root
     restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "tailscale status --json | jq -e '.BackendState==\"Running\" and (.TailscaleIPs|length>0) and (.HealthWarnings|length==0)'" ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
     dns:
       - 1.1.1.1
       - 8.8.8.8
@@ -38,6 +44,12 @@ services:
       context: nordvpn
     container_name: tailnord-nordvpn-${INSTANCE_NAME}
     hostname: tailnord-nordvpn
+    healthcheck:
+      test: [ "CMD-SHELL", "nordvpn status | grep -q '^Status: Connected$'" ]
+      interval: 1m
+      timeout: 10s
+      retries: 3
+      start_period: 30s
     entrypoint: [
       '/scripts/nordvpn_up.sh'
     ]
