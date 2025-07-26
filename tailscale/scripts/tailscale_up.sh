@@ -43,6 +43,6 @@ while [ 1 ]; do
   TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
   mosquitto_pub \
     -h "$MQTT_BROKER" -u "$MQTT_USER" -P "$MQTT_PASS" \
-    -t "${TOPIC_PREFIX}/tailscale" \
+    -t "${MQTT_TOPIC_PREFIX}/tailscale" \
     -m "{\"status\":\"$STATUS\",\"ts\":\"$TIMESTAMP\"}"
 done
