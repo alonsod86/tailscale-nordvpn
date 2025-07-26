@@ -20,7 +20,7 @@ else
   tailscale up --advertise-exit-node --hostname $INSTANCE_NAME_ $LOGIN_SERVER 
 fi
 
-apk add mtr curl prometheus-node-exporter tinyproxy jq mosquitto-clients
+apk add mtr curl prometheus-node-exporter tinyproxy jq
 
 cat <<EOF > /etc/tinyproxy.conf
 Port 80
@@ -35,14 +35,5 @@ nohup /usr/bin/node_exporter > /tmp/node_exporter.log 2>&1 &
 
 while [ 1 ]; do
   sleep 60
-  if tailscale status --json | jq -e '.BackendState=="Running" and (.TailscaleIPs|length>0) and (.HealthWarnings|length==0)' > /dev/null; then
-    STATUS=healthy
-  else
-    STATUS=unhealthy
-  fi
-  TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-  mosquitto_pub \
-    -h "$MQTT_BROKER" -u "$MQTT_USER" -P "$MQTT_PASS" \
-    -t "${MQTT_TOPIC_PREFIX}/tailscale" \
-    -m "{\"status\":\"$STATUS\",\"ts\":\"$TIMESTAMP\"}"
+  date
 done
