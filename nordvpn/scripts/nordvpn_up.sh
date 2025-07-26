@@ -101,6 +101,26 @@ nordvpn status
 
 echo "Reconnect period: ${RECONNECT_AFTER_SECONDS}s"
 
+# Background metric publisher
+(
+  while true; do
+    # Read raw status lines
+    RAW=$(nordvpn status)
+    # Extract fields
+    CONN=$(echo "$RAW" | grep -q '^Status: Connected' && echo connected || echo disconnected)
+    HOST=$(echo "$RAW" | awk -F': ' '/^Hostname:/ {print $2}')
+    UPTIME=$(echo "$RAW" | awk -F': ' '/^Uptime:/ {print $2}')
+    XFER=$(echo "$RAW" | awk -F': ' '/^Transfer:/ {print $2}')
+    TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+    # Publish JSON payload
+    mosquitto_pub \
+      -h "$MQTT_BROKER" -u "$MQTT_USER" -P "$MQTT_PASS" \
+      -t "${MQTT_TOPIC_PREFIX}/nordvpn" \
+      -m "{\"connection\":\"$CONN\",\"server\":\"$HOST\",\"uptime\":\"$UPTIME\",\"transfer\":\"$XFER\",\"ts\":\"$TS\"}"
+    sleep 30
+  done
+) &
+
 while [ 1 ]; do
   sleep $RECONNECT_AFTER_SECONDS
   echo "--- $(date +%Y%m%d_%H%M%S) ---"
