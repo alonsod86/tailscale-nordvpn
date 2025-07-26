@@ -45,7 +45,13 @@ services:
     container_name: tailnord-nordvpn-${INSTANCE_NAME}
     hostname: tailnord-nordvpn
     healthcheck:
-      test: [ "CMD-SHELL", "nordvpn status | grep -q '^Status: Connected$'" ]
+      test:
+        [
+          "CMD",
+          "sh",
+          "-c",
+          "nordvpn status | grep -q '^Status: Connected\\$'"
+        ]
       interval: 1m
       timeout: 10s
       retries: 3
