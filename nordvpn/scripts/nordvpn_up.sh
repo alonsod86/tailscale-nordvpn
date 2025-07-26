@@ -83,6 +83,10 @@ fi
 echo nordvpn allowlist add subnet ${IP_SUBNET}
 nordvpn allowlist add subnet ${IP_SUBNET}
 
+# Add home subnet
+nordvpn whitelist add subnet 192.168.0.0/24
+nordvpn set lan-discovery enable
+
 # Enable the connection to persist through reboots
 nordvpn set autoconnect on
 
