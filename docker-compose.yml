@@ -1,5 +1,4 @@
-name: tailnord-${INSTANCE_NAME}
-
+version: "3.8"
 services:
   tailscale:
     image: tailscale/tailscale:latest
@@ -10,11 +9,15 @@ services:
     ]
     user: root
     restart: always
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
     volumes:
       - "/dev/net/tun:/dev/net/tun"
       - "./tailscale/state:/var/lib/tailscale"
       - "./tailscale/scripts:/scripts"
     environment:
+      - TS_ENABLE_HEALTH_CHECK=true
       - TAILSCALE_UP_LOGIN_SERVER=${TAILSCALE_UP_LOGIN_SERVER}
       - IP_NORDVPN=${IP_NORDVPN}
       - INSTANCE_NAME=${INSTANCE_NAME}
