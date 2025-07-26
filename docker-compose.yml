@@ -18,6 +18,7 @@ services:
       - "./tailscale/scripts:/scripts"
     environment:
       - TS_ENABLE_HEALTH_CHECK=true
+      - TS_LOCAL_ADDR_PORT=0.0.0.0:9002
       - TAILSCALE_UP_LOGIN_SERVER=${TAILSCALE_UP_LOGIN_SERVER}
       - IP_NORDVPN=${IP_NORDVPN}
       - INSTANCE_NAME=${INSTANCE_NAME}
