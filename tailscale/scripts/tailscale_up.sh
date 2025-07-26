@@ -20,7 +20,7 @@ else
   tailscale up --advertise-exit-node --hostname $INSTANCE_NAME_ $LOGIN_SERVER 
 fi
 
-apk add mtr curl prometheus-node-exporter tinyproxy
+apk add mtr curl prometheus-node-exporter tinyproxy jq
 
 cat <<EOF > /etc/tinyproxy.conf
 Port 80
